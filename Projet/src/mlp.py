@@ -20,11 +20,11 @@ import sys
 TRAIN_BINARY_FILE_PATH = "data/binary_train_data/"
 
 SAVE_MODEL_PATH ="models/mlp.ckpt"
-LOAD_MODEL = False
+LOAD_MODEL = True
 
 # Parameters
 learning_rate = 0.001
-training_epochs = 15
+training_epochs = 500
 #batch_size = 100
 display_step = 1
 save_step = 5
@@ -99,8 +99,9 @@ with tf.Session() as sess:
     sess.run(init)
 
     if LOAD_MODEL:
+        print("loading model...")
         saver.restore(sess, SAVE_MODEL_PATH)
-
+        print("Done !")
     # Training cycle
     print("Start training ...")
     for epoch in range(training_epochs):
