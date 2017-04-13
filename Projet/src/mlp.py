@@ -20,7 +20,9 @@ import sys
 TRAIN_BINARY_FILE_PATH = "data/binary_train_data/"
 
 SAVE_MODEL_PATH ="models/mlp.ckpt"
-LOAD_MODEL = True
+LOAD_MODEL = False
+
+USE_ALL_TRAIN_DATA = True
 
 # Parameters
 learning_rate = 0.001
@@ -34,6 +36,8 @@ total_batch = 5
 # Network Parameters
 n_hidden_1 = 256 # 1st layer number of features
 n_hidden_2 = 256 # 2nd layer number of features
+n_hidden_3 = 256
+n_hidden_4 = 256
 n_input = 129 # MNIST data input (img shape: 28*28)
 mask_size = 129 # MNIST total classes (0-9 digits)
 
@@ -46,7 +50,7 @@ y = tf.placeholder("float", [None, mask_size])
 
 def iterate_binary_files():
     for binary_file in os.listdir(TRAIN_BINARY_FILE_PATH):
-        if binary_file in binary_file_used:
+        if binary_file in binary_file_used || USE_ALL_TRAIN_DATA:
             print("loading binary file...")
             data_and_labels = np.load(TRAIN_BINARY_FILE_PATH+binary_file)
             data = data_and_labels[0]
@@ -63,8 +67,15 @@ def multilayer_perceptron(x, weights, biases):
     # Hidden layer with RELU activation
     layer_2 = tf.add(tf.matmul(layer_1, weights['h2']), biases['b2'])
     layer_2 = tf.sigmoid(layer_2)
+
+    layer_3 = tf.add(tf.matmul(layer_2, weights['h3']), biases['b3'])
+    layer_3 = tf.sigmoid(layer_3)
+
+    layer_4 = tf.add(tf.matmul(layer_3, weights['h4']), biases['b4'])
+    layer_4 = tf.sigmoid(layer_4)
+
     # Output layer with linear activation
-    out_layer = tf.matmul(layer_2, weights['out']) + biases['out']
+    out_layer = tf.matmul(layer_4, weights['out']) + biases['out']
     out_layer = tf.sigmoid(out_layer)
     return out_layer
 
@@ -72,11 +83,15 @@ def multilayer_perceptron(x, weights, biases):
 weights = {
     'h1': tf.Variable(tf.random_normal([n_input, n_hidden_1])),
     'h2': tf.Variable(tf.random_normal([n_hidden_1, n_hidden_2])),
-    'out': tf.Variable(tf.random_normal([n_hidden_2, mask_size]))
+    'h2': tf.Variable(tf.random_normal([n_hidden_2, n_hidden_3])),
+    'h2': tf.Variable(tf.random_normal([n_hidden_3, n_hidden_4])),
+    'out': tf.Variable(tf.random_normal([n_hidden_4, mask_size]))
 }
 biases = {
     'b1': tf.Variable(tf.random_normal([n_hidden_1])),
     'b2': tf.Variable(tf.random_normal([n_hidden_2])),
+    'b2': tf.Variable(tf.random_normal([n_hidden_3])),
+    'b2': tf.Variable(tf.random_normal([n_hidden_4])),
     'out': tf.Variable(tf.random_normal([mask_size]))
 }
 
