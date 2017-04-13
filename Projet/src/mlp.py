@@ -31,7 +31,7 @@ training_epochs = 500
 display_step = 1
 save_step = 5
 
-total_batch = 5
+total_batch = 8
 
 # Network Parameters
 n_hidden_1 = 256 # 1st layer number of features
@@ -63,15 +63,19 @@ def iterate_binary_files():
 def multilayer_perceptron(x, weights, biases):
     # Hidden layer with RELU activation
     layer_1 = tf.add(tf.matmul(x, weights['h1']), biases['b1'])
+    layer_1 = tf.layers.batch_normalization(layer_1, training=True)
     layer_1 = tf.nn.relu(layer_1)
     # Hidden layer with RELU activation
     layer_2 = tf.add(tf.matmul(layer_1, weights['h2']), biases['b2'])
+    layer_2 = tf.layers.batch_normalization(layer_1, training=True)
     layer_2 = tf.nn.relu(layer_2)
 
     layer_3 = tf.add(tf.matmul(layer_2, weights['h3']), biases['b3'])
+    layer_3 = tf.layers.batch_normalization(layer_1, training=True)
     layer_3 = tf.nn.relu(layer_3)
 
     layer_4 = tf.add(tf.matmul(layer_3, weights['h4']), biases['b4'])
+    layer_4 = tf.layers.batch_normalization(layer_1, training=True)
     layer_4 = tf.nn.relu(layer_4)
 
     # Output layer with linear activation
