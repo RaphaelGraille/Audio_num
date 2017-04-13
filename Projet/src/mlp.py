@@ -83,15 +83,15 @@ def multilayer_perceptron(x, weights, biases):
 weights = {
     'h1': tf.Variable(tf.random_normal([n_input, n_hidden_1])),
     'h2': tf.Variable(tf.random_normal([n_hidden_1, n_hidden_2])),
-    'h2': tf.Variable(tf.random_normal([n_hidden_2, n_hidden_3])),
-    'h2': tf.Variable(tf.random_normal([n_hidden_3, n_hidden_4])),
+    'h3': tf.Variable(tf.random_normal([n_hidden_2, n_hidden_3])),
+    'h4': tf.Variable(tf.random_normal([n_hidden_3, n_hidden_4])),
     'out': tf.Variable(tf.random_normal([n_hidden_4, mask_size]))
 }
 biases = {
     'b1': tf.Variable(tf.random_normal([n_hidden_1])),
     'b2': tf.Variable(tf.random_normal([n_hidden_2])),
-    'b2': tf.Variable(tf.random_normal([n_hidden_3])),
-    'b2': tf.Variable(tf.random_normal([n_hidden_4])),
+    'b3': tf.Variable(tf.random_normal([n_hidden_3])),
+    'b4': tf.Variable(tf.random_normal([n_hidden_4])),
     'out': tf.Variable(tf.random_normal([mask_size]))
 }
 
