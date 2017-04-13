@@ -50,7 +50,7 @@ y = tf.placeholder("float", [None, mask_size])
 
 def iterate_binary_files():
     for binary_file in os.listdir(TRAIN_BINARY_FILE_PATH):
-        if binary_file in binary_file_used || USE_ALL_TRAIN_DATA:
+        if binary_file in binary_file_used or USE_ALL_TRAIN_DATA:
             print("loading binary file...")
             data_and_labels = np.load(TRAIN_BINARY_FILE_PATH+binary_file)
             data = data_and_labels[0]
