@@ -24,8 +24,10 @@ LOAD_MODEL = False
 
 USE_ALL_TRAIN_DATA = True
 
+NB_CONC_FRAMES=20
+
 # Parameters
-learning_rate = 0.001
+learning_rate = 0.01
 training_epochs = 500
 #batch_size = 100
 display_step = 1
@@ -34,12 +36,12 @@ save_step = 5
 total_batch = 8
 
 # Network Parameters
-n_hidden_1 = 256 # 1st layer number of features
-n_hidden_2 = 256 # 2nd layer number of features
-n_hidden_3 = 256
-n_hidden_4 = 256
-n_input = 129 # MNIST data input (img shape: 28*28)
-mask_size = 129 # MNIST total classes (0-9 digits)
+n_hidden_1 = 129*NB_CONC_FRAMES # 1st layer number of features
+n_hidden_2 = 129*NB_CONC_FRAMES # 2nd layer number of features
+n_hidden_3 = 129*NB_CONC_FRAMES
+n_hidden_4 = 129*NB_CONC_FRAMES
+n_input = 129*NB_CONC_FRAMES # MNIST data input (img shape: 28*28)
+mask_size = 129*NB_CONC_FRAMES # MNIST total classes (0-9 digits)
 
 binary_file_used = ["train_data_and_labels_1.npy","train_data_and_labels_2.npy","train_data_and_labels_3.npy","train_data_and_labels_4.npy","train_data_and_labels_5.npy"]
 
@@ -74,12 +76,12 @@ def multilayer_perceptron(x, weights, biases):
     layer_3 = tf.layers.batch_normalization(layer_1, training=True)
     layer_3 = tf.nn.relu(layer_3)
 
-    layer_4 = tf.add(tf.matmul(layer_3, weights['h4']), biases['b4'])
-    layer_4 = tf.layers.batch_normalization(layer_1, training=True)
-    layer_4 = tf.nn.relu(layer_4)
+    #layer_4 = tf.add(tf.matmul(layer_3, weights['h4']), biases['b4'])
+    #layer_4 = tf.layers.batch_normalization(layer_1, training=True)
+    #layer_4 = tf.nn.relu(layer_4)
 
     # Output layer with linear activation
-    out_layer = tf.matmul(layer_4, weights['out']) + biases['out']
+    out_layer = tf.matmul(layer_3, weights['out']) + biases['out']
     out_layer = tf.sigmoid(out_layer)
     return out_layer
 
