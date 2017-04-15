@@ -85,7 +85,7 @@ def multilayer_perceptron(x, weights, biases):
     layer_4 = tf.nn.dropout(layer_4,0.5)
 
     # Output layer with linear activation
-    out_layer = tf.matmul(layer_4, weights['out']) + biases['out']
+    out_layer = tf.matmul(layer_3, weights['out']) + biases['out']
     out_layer = tf.sigmoid(out_layer)
     return out_layer
 
