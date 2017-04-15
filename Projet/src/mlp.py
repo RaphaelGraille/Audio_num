@@ -66,22 +66,26 @@ def multilayer_perceptron(x, weights, biases):
     # Hidden layer with RELU activation
     layer_1 = tf.add(tf.matmul(x, weights['h1']), biases['b1'])
     layer_1 = tf.layers.batch_normalization(layer_1, training=True)
-    layer_1 = tf.nn.relu(layer_1)
+    layer_1 = tf.sigmoid(layer_1)
+    layer_1 = tf.nn.dropout(layer_1,0.5)
     # Hidden layer with RELU activation
     layer_2 = tf.add(tf.matmul(layer_1, weights['h2']), biases['b2'])
-    layer_2 = tf.layers.batch_normalization(layer_1, training=True)
-    layer_2 = tf.nn.relu(layer_2)
+    layer_2 = tf.layers.batch_normalization(layer_2, training=True)
+    layer_2 = tf.sigmoid(layer_2)
+    layer_2 = tf.nn.dropout(layer_2,0.5)
 
     layer_3 = tf.add(tf.matmul(layer_2, weights['h3']), biases['b3'])
-    layer_3 = tf.layers.batch_normalization(layer_1, training=True)
-    layer_3 = tf.nn.relu(layer_3)
+    layer_3 = tf.layers.batch_normalization(layer_3, training=True)
+    layer_3 = tf.sigmoid(layer_3)
+    layer_3 = tf.nn.dropout(layer_3,0.5)
 
-    #layer_4 = tf.add(tf.matmul(layer_3, weights['h4']), biases['b4'])
-    #layer_4 = tf.layers.batch_normalization(layer_1, training=True)
-    #layer_4 = tf.nn.relu(layer_4)
+    layer_4 = tf.add(tf.matmul(layer_3, weights['h4']), biases['b4'])
+    layer_4 = tf.layers.batch_normalization(layer_4, training=True)
+    layer_4 = tf.sigmoid(layer_4)
+    layer_4 = tf.nn.dropout(layer_4,0.5)
 
     # Output layer with linear activation
-    out_layer = tf.matmul(layer_3, weights['out']) + biases['out']
+    out_layer = tf.matmul(layer_4, weights['out']) + biases['out']
     out_layer = tf.sigmoid(out_layer)
     return out_layer
 
